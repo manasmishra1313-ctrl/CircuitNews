@@ -1,0 +1,172 @@
+</html>
+<--<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CircuitNews</title>
+  <meta name="description" content="Links and discussion for electrical and electronics engineers.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ===== HEADER / NAV ===== -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="logo">CircuitNews</a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="/top">top</a>
+        <a href="/new">new</a>
+        <a href="/ask">ask</a>
+        <a href="/jobs">jobs</a>
+        <a href="/submit">submit</a>
+      </nav>
+      <div id="auth-container"></div>
+      <script type="module">
+        import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+
+        const auth = getAuth();
+        const container = document.getElementById("auth-container");
+
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            container.innerHTML = `
+              <span>Hi, ${user.displayName || user.email}</span>
+              <button id="logout">Sign out</button>
+            `;
+            document.getElementById("logout").onclick = () => signOut(auth);
+          } else {
+            container.innerHTML = `<a href="/login">Sign in</a>`;
+          }
+        });
+      </script>
+    </div>
+  </header>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="container">
+    <ol class="post-list">
+
+      <!-- One post. Copy this <li> block for each post. -->
+      <li class="post">
+        <div class="vote">
+          <button class="upvote" aria-label="Upvote">▲</button>
+        </div>
+        <div class="post-body">
+          <h2 class="post-title">
+            <a href="https://example.com/article">Placeholder: Designing a low-noise instrumentation amplifier</a>
+            <span class="domain">(example.com)</span>
+          </h2>
+          <p class="post-meta">
+            <span class="points">128 points</span>
+            by <a href="/user/username">username</a>
+            <a href="/post/1">5 hours ago</a> |
+            <a href="/post/1#comments">42 comments</a>
+          </p>
+        </div>
+      </li>
+
+      <li class="post">
+        <div class="vote"><button class="upvote" aria-label="Upvote">▲</button></div>
+        <div class="post-body">
+          <h2 class="post-title">
+            <a href="https://example.com/fpga">Placeholder: Getting started with FPGAs as a student</a>
+            <span class="domain">(example.com)</span>
+          </h2>
+          <p class="post-meta">
+            <span class="points">87 points</span>
+            by <a href="/user/another_user">another_user</a>
+            <a href="/post/2">8 hours ago</a> |
+            <a href="/post/2#comments">19 comments</a>
+          </p>
+        </div>
+      </li>
+
+      <li class="post">
+        <div class="vote"><button class="upvote" aria-label="Upvote">▲</button></div>
+        <div class="post-body">
+          <h2 class="post-title">
+            <a href="https://example.com/power">Placeholder: Ask – How do you choose between buck and boost converters?</a>
+          </h2>
+          <p class="post-meta">
+            <span class="points">54 points</span>
+            by <a href="/user/student42">student42</a>
+            <a href="/post/3">1 day ago</a> |
+            <a href="/post/3#comments">31 comments</a>
+          </p>
+        </div>
+      </li>
+
+    </ol>
+
+    <nav class="pagination" aria-label="Pagination">
+      <a href="/?page=2" class="more-link">More</a>
+    </nav>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <nav aria-label="Footer navigation">
+        <a href="/guidelines">Guidelines</a>
+        <a href="/faq">FAQ</a>
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </nav>
+      <form class="search-form" action="/search" method="get">
+        <label for="search">Search:</label>
+        <input type="search" id="search" name="q">
+      </form>
+    </div>
+  </footer>
+
+</body>
+</html>
+
+<!--
+=====================================================================
+EXTRA SNIPPETS (not part of the page above) — copy into other pages
+=====================================================================
+
+--- SUBMIT PAGE FORM (submit.html) ---
+<main class="container">
+  <form class="form" action="/submit" method="post">
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" required maxlength="120">
+
+    <label for="url">URL</label>
+    <input type="url" id="url" name="url">
+
+    <label for="text">Text (optional, for Ask posts)</label>
+    <textarea id="text" name="text" rows="6"></textarea>
+
+    <button type="submit" class="btn">Submit</button>
+  </form>
+</main>
+
+--- LOGIN PAGE FORM (login.html) ---
+<main class="container">
+  <form class="form" action="/login" method="post">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" required>
+
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required>
+
+    <button type="submit" class="btn">Login</button>
+  </form>
+</main>
+
+--- NESTED COMMENTS (post.html) ---
+<ul class="comment-list" id="comments">
+  <li class="comment">
+    <p class="comment-meta"><a href="/user/someone">someone</a> 3 hours ago</p>
+    <p class="comment-text">Top-level comment text.</p>
+    <ul class="comment-list">
+      <li class="comment">
+        <p class="comment-meta"><a href="/user/other">other</a> 2 hours ago</p>
+        <p class="comment-text">A reply, nested inside.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
